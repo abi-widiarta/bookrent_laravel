@@ -25,7 +25,7 @@
             </svg>
           </div>
           <div>
-            <p class="font-semibold text-xl text-[#151C48] ">25</p>
+            <p class="font-semibold text-xl text-[#151C48] ">{{ $totalUsers }}</p>
             <p class="font-medium text-base text-[#777A8F]">Total Users</p>
           </div>
         </div>
@@ -64,7 +64,7 @@
               </svg>              
           </div>
           <div>
-            <p class="font-semibold text-xl text-[#151C48] ">1001</p>
+            <p class="font-semibold text-xl text-[#151C48] ">{{ $totalBooks }}</p>
             <p class="font-medium text-base text-[#777A8F]">Total Books</p>
           </div>
         </div>

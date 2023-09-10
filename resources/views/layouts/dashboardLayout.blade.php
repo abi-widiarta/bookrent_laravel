@@ -12,7 +12,7 @@
         />
         <script src="https://cdn.tailwindcss.com"></script>
         <title>Open Library | @yield('title')</title>
-
+    
         <style>
             body {
                 font-family: "Poppins", sans-serif;
@@ -41,9 +41,9 @@
                 }
             }
 
-            select {
+            /* select {
               appearance: none;
-            }
+            } */
 
             /* input[type=file]::file-selector-button {
                 margin-right: 20px;
@@ -55,6 +55,59 @@
                 cursor: pointer;
                 transition: background .2s ease-in-out;
             } */
+
+            .select2-selection {
+                /* -webkit-box-shadow: inset 0 1px 1px rgba(119, 122, 143,0.2); */
+                /* box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); */
+                background-color: #fff;
+                border: 1px solid rgba(119, 122, 143,0.2) !important;
+                border-radius: 8px !important;
+                font-family: "Poppins", sans-serif !important;
+                padding: 6px !important;
+                color: #555555;
+                font-size: 14px;
+                outline: 0;
+            }
+
+            .select2-selection__choice{
+                margin-top: 2px!important;
+                padding-right: 5px!important;
+                padding-left: 20px!important;
+                background-color: transparent!important;
+                border:none!important;
+                border-radius: 4px!important;
+                background-color: rgba(119, 122, 143,0.2) !important;
+                font-size: 14px;
+                color: rgb(79, 80, 94) !important;
+            }
+
+            .select2-selection__choice__remove{
+                border: none!important;
+                border-radius: 0!important;
+                padding: 0 2px!important;
+                margin-left: 4px !important;
+            }
+
+            .select2-selection__choice__remove:hover{
+                background-color: transparent!important;
+                color: #ef5454 !important;
+            }
+
+            .select2-dropdown {
+                border-radius: 8px !important;
+                overflow: hidden !important;
+            }
+
+            .select2-results__option--selectable {
+                /* border-radius: 6px !important; */
+                padding-left: 10px !important;
+                font-size: 14px !important;
+                color: rgb(78, 80, 93) !important
+            }
+
+            .select2-results__option--selectable:hover {
+                color: #fff !important
+            }
         </style>
     </head>
     <body

@@ -45,34 +45,28 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="text-[#777A8F] text-sm border-b border-[#777A8F]/20 py-8">
-              <td class="py-4 pl-2">1</td>
-              <td class="py-4">Algoritma Pemrograman</td>
-              <td class="py-4 flex items-center space-x-2">
-                <p class="inline-block text-xs font-medium px-2 py-2 rounded-md bg-[#777A8F]/10">Programming</p>
-                <p class="inline-block text-xs font-medium px-2 py-2 rounded-md bg-[#777A8F]/10">Code</p>
-               
-              </td>
-              <td class="py-4 text-[#3CD755] font-medium text-sm">In Stock</td>
-              <td class="py-4 flex space-x-2">
-                <a href="#" class="inline-block hover:opacity-70 transition-all duration-300 text-xs px-2 py-2 font-medium bg-[#E8F8FF] text-[#41B6FF]">Edit</a>
-                <a href="#" class="inline-block hover:opacity-70 transition-all duration-300 text-xs px-2 py-2 font-medium bg-[#FFE8E8] text-[#FF5050]">Trash</a>
-              </td>
-            </tr>
-            <tr class="text-[#777A8F] text-sm border-b border-[#777A8F]/20 py-8">
-              <td class="py-4 pl-2">2</td>
-              <td class="py-4">Algoritma Pemrograman</td>
-              <td class="py-4 flex items-center space-x-2">
-                <p class="inline-block text-xs font-medium px-2 py-2 rounded-md bg-[#777A8F]/10">Programming</p>
-                <p class="inline-block text-xs font-medium px-2 py-2 rounded-md bg-[#777A8F]/10">Code</p>
-               
-              </td>
-              <td class="py-4 text-[#3CD755] font-medium text-sm">In Stock</td>
-              <td class="py-4 flex space-x-2">
-                <a href="#" class="inline-block hover:opacity-70 transition-all duration-300 text-xs px-2 py-2 font-medium bg-[#E8F8FF] text-[#41B6FF]">Edit</a>
-                <a href="#" class="inline-block hover:opacity-70 transition-all duration-300 text-xs px-2 py-2 font-medium bg-[#FFE8E8] text-[#FF5050]">Trash</a>
-              </td>
-            </tr>
+
+            @foreach ($books as $book)     
+              <tr class="text-[#777A8F] text-sm border-b border-[#777A8F]/20 py-8">
+                <td class="py-4 pl-2">{{ $loop->iteration }}</td>
+                <td class="py-4">{{ $book->title }}</td>
+                <td class="py-4 flex items-center space-x-2">
+                  @foreach ($book->categories as $category)
+                      <p class="inline-block text-xs font-medium px-2 py-2 rounded-md bg-[#777A8F]/10">{{ $category->name }}</p>
+                  @endforeach
+                </td>
+                <td class="py-4 text-[#3CD755] font-medium text-sm">{{ $book->status }}</td>
+                <td class="py-4 flex space-x-2">
+                  <a href="/admin/books/edit/{{ $book->id }}" class="inline-block hover:opacity-70 transition-all duration-300 text-xs px-2 py-2 font-medium bg-[#E8F8FF] text-[#41B6FF]">Edit</a>
+                  <form action="/admin/books/trash/{{ $book->id }}" method="post">
+                    @csrf
+                    <button class="inline-block hover:opacity-70 transition-all duration-300 text-xs px-2 py-2 font-medium bg-[#FFE8E8] text-[#FF5050] rounded-sm" type="submit">Trash</button>
+                  </form>
+                  {{-- <a href="#" class="inline-block hover:opacity-70 transition-all duration-300 text-xs px-2 py-2 font-medium bg-[#FFE8E8] text-[#FF5050]">Trash</a> --}}
+                </td>
+              </tr>
+            @endforeach
+      
             
      
           </tbody>
