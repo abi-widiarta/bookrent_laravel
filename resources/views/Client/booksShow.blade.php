@@ -23,7 +23,11 @@
             </div>
             <div class=" flex-1 flex flex-col items-start justify-between pb-4">
               <div>
-                <p class="inline-block mr-auto mb-3 text-xs text-[#3CD755] font-semibold bg-[#DCFCE7] py-2 px-2 rounded-md">{{ $book->status }}</p>
+                @if ($book->status == "In stock")
+                  <p class="inline-block mr-auto mb-3 text-xs text-[#3CD755] font-semibold bg-[#DCFCE7] py-2 px-2 rounded-md">{{ $book->status }}</p>
+                @else
+                  <p class="inline-block mr-auto mb-3 text-xs font-semibold bg-[#FFE8E8] text-[#FF5050] py-2 px-2 rounded-md">{{ $book->status }}</p>
+                @endif
                 <p class="text-lg truncate mb-2 font-semibold text-[#777A8F]">{{ $book->title }}</p>
                 <p class="text-base mb-4 font-medium text-[#777A8F]/80">{{ $book->author }}</p>
                 <div class="space-x-2 mb-8">
@@ -39,9 +43,13 @@
                   {{ $book->description }}
                 </p>
               </div>
-              <a class="text-white text-sm py-2.5 font-medium px-12 bg-[#FF3737] hover:opacity-80 transition-all duration-150 rounded-xl" href="#">
-                Request For Rent
-              </a>
+
+              <form id="rent-request-form" action="/books/rent/{{ $book->id }}" method="post">
+                @csrf
+                <button type="submit" class="text-white text-sm py-2.5 font-medium px-12 bg-[#FF3737] hover:opacity-80 transition-all duration-150 rounded-xl">
+                  Request For Rent
+                </button>
+              </form>
     
             </div>
           </div>
@@ -49,6 +57,7 @@
     </div>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tilt.js/1.2.1/tilt.jquery.min.js"></script>
   <script>
     $('.js-tilt').tilt({
@@ -62,6 +71,27 @@
       transition:     true,   // Set a transition on enter/exit.
       disableAxis:    null,   // What axis should be disabled. Can be X or Y.
       reset:          true,   // If the tilt effect has to be reset on exit.
+    })
+
+
+    const form = document.querySelector("#rent-request-form")
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      
+      Swal.fire({
+      title: 'Warning',
+      text: "Are you sure want to rent this book?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3cd766',
+      cancelButtonColor: '#FF3737',
+      confirmButtonText: 'Yes'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          form.submit();
+        } 
+      })
     })
   </script>
 @endsection

@@ -58,7 +58,7 @@
                 <td class="py-4 text-[#3CD755] font-medium text-sm">{{ $book->status }}</td>
                 <td class="py-4 flex space-x-2">
                   <a href="/admin/books/edit/{{ $book->id }}" class="inline-block hover:opacity-70 transition-all duration-300 text-xs px-2 py-2 font-medium bg-[#E8F8FF] text-[#41B6FF]">Edit</a>
-                  <form action="/admin/books/trash/{{ $book->id }}" method="post">
+                  <form class="rent-request-form-trash" action="/admin/books/trash/{{ $book->id }}" method="post">
                     @csrf
                     <button class="inline-block hover:opacity-70 transition-all duration-300 text-xs px-2 py-2 font-medium bg-[#FFE8E8] text-[#FF5050] rounded-sm" type="submit">Trash</button>
                   </form>
@@ -72,7 +72,34 @@
           </tbody>
         </table>
       </div>
+
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+      const formTrash = document.querySelectorAll(".rent-request-form-trash")
+
+      formTrash.forEach(form => {
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          
+          Swal.fire({
+          title: 'Warning',
+          text: "Are you sure want to move this book to trash?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3cd766',
+          cancelButtonColor: '#FF3737',
+          confirmButtonText: 'Yes'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              form.submit();
+            } 
+          })
+        })
+      });
+    </script>
 @endsection
 
 

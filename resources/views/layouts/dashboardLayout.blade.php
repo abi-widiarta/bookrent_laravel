@@ -11,6 +11,7 @@
             rel="stylesheet"
         />
         <script src="https://cdn.tailwindcss.com"></script>
+        <script src="//unpkg.com/alpinejs" defer></script>
         <title>Open Library | @yield('title')</title>
     
         <style>
@@ -114,8 +115,7 @@
         class="overflow-x-hidden bg-blend-darken bg-fixed relative w-screen h-screen  overflow-y-scroll  bg-[#FAFBFD]"
     >
         @include('partials.sidebarDashboard')
-
-
+        @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
 
         <div class="w-screen h-full pl-80 pr-4  pt-2">
                 <div class="flex flex-col w-full h-full">

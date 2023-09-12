@@ -24,24 +24,34 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="text-[#777A8F] text-sm border-b border-[#777A8F]/20 py-8">
-                <td class="py-4 pl-2">1</td>
-                <td class="py-4">Algoritma Pemrograman</td>
-                <td class="py-4">2023-09-20</td>
-                <td class="py-4">2023-09-23</td>
-                <td class="py-4">
-                  <p class="inline-block text-xs px-4 py-2 font-medium bg-[#FFF4EF] text-[#FF8B4F]">Waiting Approval</p>
-                </td>
-              </tr>
-              <tr class="text-[#777A8F] text-sm border-b border-[#777A8F]/20 py-8">
-                <td class="py-4 pl-2">2</td>
-                <td class="py-4">Algoritma Pemrograman</td>
-                <td class="py-4">2023-09-20</td>
-                <td class="py-4">2023-09-23</td>
-                <td class="py-4">
-                  <p class="inline-block text-xs px-4 py-2 font-medium bg-[#FFF4EF] text-[#FF8B4F]">Waiting Approval</p>
-                </td>
-              </tr>
+
+              @if ($rent_requests->count() == 0)
+                <tr>
+                  <td colspan="5" class="pt-4 text-center col-span-5 text-sm text-[#777A8F]">You have no rent request.</td>
+                </tr>
+              @else
+                @foreach ($rent_requests as $request)
+                  <tr class="text-[#777A8F] text-sm border-b border-[#777A8F]/20 py-8">
+                    <td class="py-4 pl-2">{{ $loop->iteration }}</td>
+                    <td class="py-4">{{ $request->book->title }}</td>
+                    <td class="py-4">{{ $request->rent_date == null ? '-' : $request->rent_date }}</td>
+                    <td class="py-4">{{ $request->return_date == null ? '-' : $request->return_date }}</td>
+                    <td class="py-4">
+                      @if ($request->status == "Waiting Approval")   
+                        <p class="inline-block text-xs px-4 py-2 font-medium bg-[#FFF4EF] text-[#FF8B4F]">Waiting Approval</p>
+                      @endif
+
+                      @if ($request->status == "Approved")  
+                        <p class="inline-block text-xs px-4 py-2 font-medium bg-[#DCFCE7] text-[#3CD755]">Approved</p>
+                        @endif
+                        
+                      @if ($request->status == "Rejected")
+                        <p class="inline-block text-xs px-4 py-2 font-medium bg-[#FFE8E8] text-[#FF5050]">Rejected</p>
+                      @endif
+                    </td>
+                  </tr>
+                @endforeach
+              @endif
             </tbody>
           </table>
         </div>
