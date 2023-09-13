@@ -22,7 +22,7 @@
                 animation-duration: 0.4s;
                 animation-name: slidein;
                 animation-timing-function: ease-out;
-                transform: translateX(-5%);
+                /* transform: translateX(-5%); */
                 /* animation-iteration-count: infinite;
                 animation-direction: alternate; */
             }
@@ -33,11 +33,11 @@
                 }
 
                 70% {
-                    transform: translateX(0%);
+                    transform: translateX(2%);
                 }
 
                 100% {
-                    transform: translateX(-5%);
+                    transform: translateX(0%);
                 }
                 /* from {
                     opacity: 0;
@@ -56,7 +56,7 @@
         <div class="w-screen h-screen bg-[#646464]/50">
             <div class="wrapper w-full h-full flex">
                 <aside
-                    class="flex backdrop-blur-md text-white flex-col items-center rounded-tr-[3rem] rounded-br-[3rem] bg-[#8599AC]/30 shadow-[2px_0px_0px_2px_rgba(225,225,225,0.6)] w-[24rem] py-9 pr-10 pl-10"
+                    class="flex text-white flex-col items-center bg-[#8599AC]/30 shadow-[2px_0px_0px_2px_rgba(225,225,225,0.6)] px-9 rounded-none w-full py-9 backdrop-blur-sm sm:w-[24rem] sm:rounded-tr-[3rem] sm:rounded-br-[3rem] sm:pr-10 sm:pl-10 sm:backdrop-blur-md"
                 >
                     <div class="pb-4 px-2 w-full">
                         <div
@@ -82,7 +82,7 @@
                         class="flex text-center flex-1 flex-col items-center justify-center pb-20"
                     >
                         <h1 class="text-3xl font-semibold mb-2">Login</h1>
-                        <p class="text-base color mb-6">
+                        <p class="text-base color mb-10">
                             Please use your Google SSO account
                         </p>
 

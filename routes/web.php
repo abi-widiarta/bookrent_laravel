@@ -64,13 +64,13 @@ Route::get('/admin/books/add',function () {
 Route::post('/admin/books/add',function (Request $request) {
     $imageExtension = $request->file('cover')->getClientOriginalExtension();
 
-    $image_path = $request->file('cover')->storeAs('img', "book-" . Book::all()->count() + 1 . "." . $imageExtension,['disk' => 'public']);
+    $image_path = $request->file('cover')->storeAs('img', "book-" . Book::latest()->first()->id + 1 . "." . $imageExtension,['disk' => 'public']);
     
     $book = Book::create([
         "title" => $request->title,
         "author" => $request->author,
         "status" => $request->status,
-        "cover" => "/uploads\/" . $image_path,
+        "cover" => "/uploads/" . $image_path,
         "description" => $request->description
     ]);
 
@@ -87,13 +87,13 @@ Route::post('/admin/books/edit/{book}',function (Book $book,Request $request) {
     if($request->file('cover') != null) {
         $imageExtension = $request->file('cover')->getClientOriginalExtension();
     
-        $image_path = $request->file('cover')->storeAs('img', "book-" . Book::all()->count() + 1 . "." . $imageExtension,['disk' => 'public']);
+        $image_path = $request->file('cover')->storeAs('img', "book-" . $book->id . "." . $imageExtension,['disk' => 'public']);
         
         $book->update([
             "title" => $request->title,
             "author" => $request->author,
             "status" => $request->status,
-            "cover" => "/uploads\/" . $image_path,
+            "cover" => "/uploads/" . $image_path,
             "description" => $request->description
         ]);
     } else {
@@ -178,7 +178,7 @@ Route::middleware('auth')->group(function () {
             $selected_category = Category::where('id',$request->category)->first()->name;
         } 
 
-        return view('Client.books', ["books" => Book::filter(request(['search','category']))->paginate(2)->withQueryString(),"categories" => Category::all(),"selected_category" => $selected_category]);
+        return view('Client.books', ["books" => Book::filter(request(['search','category']))->paginate(8)->withQueryString(),"categories" => Category::all(),"selected_category" => $selected_category]);
     });
 
     Route::get('/books/show/{book}', function (Book $book) {
