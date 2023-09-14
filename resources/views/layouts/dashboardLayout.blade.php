@@ -19,6 +19,7 @@
         <style>
             body {
                 font-family: "Poppins", sans-serif;
+                /* border: 5px solid red; */
             }
 
             aside {
@@ -43,21 +44,6 @@
                     transform: translateX(-5%);
                 }
             }
-
-            /* select {
-              appearance: none;
-            } */
-
-            /* input[type=file]::file-selector-button {
-                margin-right: 20px;
-                border: none;
-                background: #084cdf;
-                padding: 10px 20px;
-                border-radius: 10px;
-                color: #fff;
-                cursor: pointer;
-                transition: background .2s ease-in-out;
-            } */
 
             .select2-selection {
                 /* -webkit-box-shadow: inset 0 1px 1px rgba(119, 122, 143,0.2); */
@@ -111,17 +97,41 @@
             .select2-results__option--selectable:hover {
                 color: #fff !important
             }
+
+           /* width */
+           ::-webkit-scrollbar {
+                width: 10px;
+                height: 8px;
+            }
+            
+            /* Track */
+            ::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            
+            /* Handle */
+            ::-webkit-scrollbar-thumb {
+                background: #c6c6c6;
+                border-radius: 10px;
+                -webkit-transform: translateY(-100px);
+                        transform: translateY(-100px)
+            }
+            
+            /* Handle on hover */
+            ::-webkit-scrollbar-thumb:hover {
+                background: #cbcbcb;
+            }
         </style>
     </head>
     <body
-        class="overflow-x-hidden bg-blend-darken bg-fixed relative w-screen h-screen  overflow-y-scroll  bg-[#FAFBFD]"
+        class="overflow-x-hidden bg-fixed relative w-screen overflow-y-scroll h-screen bg-[#FAFBFD]"
     >
         @include('partials.sidebarDashboard')
         @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
 
-        <div class="w-screen h-full lg:pl-80 pt-2">
+        <div class="w-full h-full lg:pl-80 pt-2">
                 <div class="flex flex-col w-full h-full">
-                    <div class="flex text-black backdrop-blur-xl  items-center justify-between p-4 md:pl-6 md:pr-10">
+                    <div class="flex text-black items-center justify-between w-full p-4 lg:pl-6 lg:pr-10">
                         <!-- drawer init and show -->
                         <div class="flex items-center space-x-4">
                             <div class="text-center shadow-[0px_7px_50px_0px_rgba(198,203,232,0.2)] lg:hidden">
@@ -159,7 +169,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex-1 py-4 px-6 md:pl-6 md:pr-10 ">
+                    <div class="flex-1 py-4 px-6 lg:pl-6 lg:pr-10">
                         @yield('content')
                     </div>
                 </div>

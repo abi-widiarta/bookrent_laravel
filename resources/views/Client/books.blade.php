@@ -54,8 +54,12 @@
             <div class="flex flex-col">
               @if ($book->status == "In stock")  
                 <p class="inline-block mr-auto mb-2 text-xs text-[#3CD755] font-semibold bg-[#DCFCE7] py-2 px-2 rounded-md">{{ $book->status }}</p>
-                @else
+              @endif
+              @if ($book->status == "Out Of Stock")  
                 <p class="inline-block mr-auto mb-2 text-xs font-semibold bg-[#FFE8E8] text-[#FF5050] py-2 px-2 rounded-md">{{ $book->status }}</p>
+              @endif
+              @if ($book->status == "Reserved")  
+                <p class="inline-block mr-auto mb-2 text-xs font-semibold bg-[#E8F8FF] text-[#41B6FF] py-2 px-2 rounded-md">{{ $book->status }}</p>
               @endif
               <p class="text-sm truncate mb-1 font-semibold text-[#777A8F]">{{ $book->title }}</p>
               <p class="text-xs truncate text-[#777A8F]">{{ $book->author }}</p>

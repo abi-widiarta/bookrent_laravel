@@ -24,27 +24,34 @@
             <div class="flex-1 flex flex-col items-start pb-4">
               <div>
                 @if ($book->status == "In stock")
-                  <p class="inline-block mr-auto mb-3 text-xs text-[#3CD755] font-semibold bg-[#DCFCE7] py-2 px-2 rounded-md">{{ $book->status }}</p>
-                @else
-                  <p class="inline-block mr-auto mb-3 text-xs font-semibold bg-[#FFE8E8] text-[#FF5050] py-2 px-2 rounded-md">{{ $book->status }}</p>
+                  <p class="inline-block mr-auto mb-3  text-[#3CD755] font-semibold bg-[#DCFCE7] py-2 px-2 rounded-md text-[10px] md:text-xs">{{ $book->status }}</p>
                 @endif
-                <p class="text-lg mb-2 font-semibold text-[#777A8F] md:truncate">{{ $book->title }}</p>
-                <p class="text-base mb-4 font-medium text-[#777A8F]/80">{{ $book->author }}</p>
-                <div class="space-x-2 mb-8">
+
+                @if ($book->status == "Out Of Stock")
+                  <p class="inline-block mr-auto mb-3  font-semibold bg-[#FFE8E8] text-[#FF5050] py-2 px-2 rounded-md text-[10px] md:text-xs">{{ $book->status }}</p>
+                @endif
+                
+                @if ($book->status == "Reserved")
+                  <p class="inline-block mr-auto mb-3  font-semibold bg-[#E8F8FF] text-[#41B6FF] py-2 px-2 rounded-md text-[10px] md:text-xs">{{ $book->status }}</p>
+                @endif
+
+                <p class="mb-2 font-semibold text-[#777A8F] text-base md:text-lg md:truncate">{{ $book->title }}</p>
+                <p class="mb-4 font-medium text-[#777A8F]/80 text-sm md:text-base">{{ $book->author }}</p>
+                <div class="mb-4 flex flex-wrap gap-1 md:gap-2 md:mb-8">
   
                   @foreach ($book->categories as $category)  
-                    <p class="inline-block py-2 px-4 rounded-md bg-[#777A8F]/10 text-[#777A8F] text-xs font-medium">{{ $category->name }}</p>
+                    <p class="inline-block py-2 px-4 rounded-md bg-[#777A8F]/10 text-[#777A8F] font-medium text-[10px] md:text-xs">{{ $category->name }}</p>
                   @endforeach
                 </div>
                 
-                <p class="text-ellipsis overflow-hidden text-sm text-[#777A8F] w-full mb-6 md:w-[90%] lg:w-full xl:w-[90%]">
+                <p class="text-ellipsis text-justify overflow-hidden text-[#777A8F] w-full mb-6 text-xs md:text-sm md:w-[90%] lg:w-full xl:w-[90%]">
                   {{ $book->description }}
                 </p>
               </div>
 
               <form id="rent-request-form" action="/books/rent/{{ $book->id }}" method="post">
                 @csrf
-                <button type="submit" {{ $book->status == 'Out Of Stock' ? 'disabled' : '' }} class="text-white text-sm py-2.5 font-medium px-12 bg-[#FF3737] {{ $book->status == 'Out Of Stock' ? 'opacity-80' : 'hover:opacity-80' }} transition-all duration-150 rounded-xl">
+                <button type="submit" {{ $book->status == 'Out Of Stock' || $book->status == 'Reserved' ? 'disabled' : '' }} class="text-white py-2.5 font-medium px-12 bg-[#FF3737] {{ $book->status == 'Out Of Stock' || $book->status == 'Reserved' ? 'opacity-80' : 'hover:opacity-80' }} transition-all duration-150 rounded-xl text-xs md:text-sm">
                   Request For Rent
                 </button>
               </form>
