@@ -48,7 +48,7 @@
           @foreach ($books as $book)  
           <a href="/books/show/{{ $book->id }}" class="group bg-white/60 pb-4 px-4 py-4 rounded-xl shadow-[0px_7px_50px_0px_rgba(198,203,232,0.2)] hover:shadow-[0px_11px_50px_0px_rgba(198,203,232,0.35)] hover:scale-105 transition-all duration-300">
             <div class="flex justify-center mb-4">
-              <img class="w-32 border rounded-xl group-hover:-translate-y-2 group-hover:scale-110 group-hover:rotate-3 transition duration-300 shadow-lg shadow-black/10 hover:shadow-[0px_4px_10px_0px_rgba(0,0,0,0.2)] " src={{ $book->cover }} alt="book-img">
+              <img class="h-56 border rounded-xl group-hover:-translate-y-2 group-hover:scale-110 group-hover:rotate-3 transition duration-300 shadow-lg shadow-black/10 hover:shadow-[0px_4px_10px_0px_rgba(0,0,0,0.2)] " src={{ $book->cover }} alt="book-img">
             </div>
           
             <div class="flex flex-col">
@@ -75,7 +75,7 @@
     </div>
 
 
-    <script>
+    {{-- <script>
       const filterCategory = document.querySelector("#filter-category")
 
       filterCategory.addEventListener('change', (e) => {
@@ -83,7 +83,7 @@
         window.location.href = '/books/?category=' + val;
       })
     
-    </script>
+    </script> --}}
 @endsection
 
 

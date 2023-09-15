@@ -33,7 +33,7 @@
                   <label class="text-[#777A8F] font-medium text-sm" for="title">Author</label>
                   <input class="p-2 focus:outline-[#777A8F]/80 text-[#777A8F]/90 text-sm  rounded-lg w-full border border-[#777A8F]/20" type="text" name="author" id="author">
                 </div>
-                <div class="flex flex-col space-y-2 items-start border">
+                <div class="flex flex-col space-y-2 items-start">
                   <label class="text-[#777A8F] font-medium text-sm" for="title">Category</label>
                   <select class="js-example-basic-multiple p-2 focus:outline-[#777A8F]/80 text-[#777A8F]/90 text-sm  outline-red-600 outline-4 w-full" name="categories[]" multiple="multiple">
                     @foreach ($categories as $category)
@@ -68,7 +68,7 @@
               <div class="md:w-1/2 md:pl-8">
                 <div class="flex flex-col space-y-2 items-start h-full">
                   <label class="text-[#777A8F] font-medium text-sm" for="description">Description</label>
-                  <textarea class="resize-none w-full p-1 rounded-lg border border-[#777A8F]/20 focus:outline-[#777A8F]/50 h-72 md:h-full" name="description"></textarea>
+                  <textarea class="resize-none leading-6 font-normal w-full px-4 py-2 text-sm text-[#777A8F] rounded-lg  border border-[#777A8F]/20 focus:outline-[#777A8F]/50 h-72 md:h-full" name="description"></textarea>
                   {{-- <textarea  type="text" name="title" id="title"> --}}
                 </div>
               </div>

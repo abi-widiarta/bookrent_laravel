@@ -38,9 +38,8 @@
                 <p class="mb-2 font-semibold text-[#777A8F] text-base md:text-lg md:truncate">{{ $book->title }}</p>
                 <p class="mb-4 font-medium text-[#777A8F]/80 text-sm md:text-base">{{ $book->author }}</p>
                 <div class="mb-4 flex flex-wrap gap-1 md:gap-2 md:mb-8">
-  
-                  @foreach ($book->categories as $category)  
-                    <p class="inline-block py-2 px-4 rounded-md bg-[#777A8F]/10 text-[#777A8F] font-medium text-[10px] md:text-xs">{{ $category->name }}</p>
+                  @foreach ($book->categories as $category)
+                    <a href="/books/?category={{ $category->id }}" class="inline-block py-2 px-4 rounded-md bg-[#777A8F]/10 text-[#777A8F] font-medium text-[10px] hover:opacity-75 md:text-xs">{{ $category->name }}</a>
                   @endforeach
                 </div>
                 

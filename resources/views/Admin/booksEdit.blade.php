@@ -76,11 +76,10 @@
               <div class="md:w-1/2 md:pl-8">
                 <div class="flex flex-col space-y-2 items-start h-full">
                   <label class="text-[#777A8F] font-medium text-sm" for="description">Description</label>
-                  <textarea class="resize-none leading-6 font-normal w-full px-4 py-2 text-sm text-[#777A8F] rounded-lg  border border-[#777A8F]/20 focus:outline-[#777A8F]/50 h-72 md:h-ful" name="description">{{ $book->description }}</textarea>
+                  <textarea class="resize-none leading-6 font-normal w-full px-4 py-2 text-sm text-[#777A8F] rounded-lg  border border-[#777A8F]/20 focus:outline-[#777A8F]/50 h-72 md:h-full" name="description">{{ $book->description }}</textarea>
                   {{-- <textarea  type="text" name="title" id="title"> --}}
                 </div>
               </div>
-  
             </div>
             <button type="submit" class="block mx-auto md:px-24 shadow-[0px_4px_4px_0px_rgba(255,55,55,0.23)] hover:shadow-[0px_6px_6px_0px_rgba(255,55,55,0.3)] hover:opacity-80 hover:-translate-y-1 transition-all duration-300 py-2.5 rounded-xl bg-[#FF3737] text-white font-medium text-sm w-full md:w-auto">Update Book</button>
           </form>
