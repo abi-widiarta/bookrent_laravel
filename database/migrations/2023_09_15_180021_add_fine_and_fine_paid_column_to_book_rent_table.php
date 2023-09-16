@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('book_rent', function (Blueprint $table) {
+            $table->boolean('fine_paid')->nullable()->after('actual_return_date');
             $table->string('fine')->nullable()->default('0')->after('actual_return_date');
         });
     }
@@ -22,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('book_rent', function (Blueprint $table) {
-            $table->dropColumn(['fine']);
+            $table->dropColumn(['fine','fine_paid']);
         });
     }
 };

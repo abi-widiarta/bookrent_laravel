@@ -14,7 +14,7 @@ class DashboardController extends Controller
         [
             "totalBooks" => Book::all()->count(),
             "totalUsers" => User::all()->count(),
-            "totalFinedRent" => BookRent::where('Fine','!=','0')->count(),
+            "totalFinedRent" => BookRent::where('fine','!=','0')->where('fine_paid',null)->count(),
             "rentedBooks" => Book::where('status','Out Of Stock')->count(),
             "rent_requests" => BookRent::where('status','Waiting Approval')->orderBy('id', 'desc')->paginate(5)->withQueryString()
         ]);

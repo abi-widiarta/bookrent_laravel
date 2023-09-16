@@ -61,6 +61,8 @@ Route::middleware('auth:admin')->group(function () {
     Route::post('/admin/rent-request/reject/{bookRent}', [RentRequestController::class, 'adminRentRequestReject']);
     
     Route::post('/admin/rent-logs/return/{bookRent}', [RentLogController::class, 'adminRentLogReturn']);
+
+    Route::post('/admin/rent-logs/fine/pay/{bookRent}', [RentLogController::class, 'adminRentLogFinePay']);
 });
 
 Route::middleware('auth')->group(function () {

@@ -33,16 +33,23 @@ class BookController extends Controller
     }
 
     public function clientRent(Book $book) {
-        $stillRent = BookRent::where('user_id',Auth::user()->id)->where('book_id',$book->id)->where('status','Waiting Approval')->get()->count();
+        $stillRequest = BookRent::where('user_id',Auth::user()->id)->where('book_id',$book->id)->where('status','Waiting Approval')->get()->count();
+        $stillRent = BookRent::where('user_id',Auth::user()->id)->where('status','Approved')->get()->count();
         $rentCount = BookRent::where('user_id',Auth::user()->id)->where('status','Waiting Approval')->get()->count();
 
-        if($stillRent != 0) {
+        if($stillRequest != 0) {
             return redirect('/books/show/' . $book->id)->with('toast_error', 'You already request this book!');
         };
 
-        if($rentCount >= 3) {
-            return redirect('/books/show/' . $book->id)->with('toast_error', 'You reach maximum rent request of 3!');
+        if($stillRent + $rentCount >= 3) {
+            return redirect('/books/show/' . $book->id)->with('toast_error', 'You reach maximum total rent and rent request of 3!');
         };
+
+        // if($rentCount >= 3) {
+        //     return redirect('/books/show/' . $book->id)->with('toast_error', 'You reach maximum rent request of 3!');
+        // };
+
+
 
         if($book->status == "Out Of Stock") {
             return redirect('/books/show/' . $book->id)->with('toast_error', 'This book is currently out of stock!');

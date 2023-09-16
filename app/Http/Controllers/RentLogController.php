@@ -22,26 +22,26 @@ class RentLogController extends Controller
                         })->orderBy('id','desc')->paginate(10)->withQueryString();
 
         $totalFine = 0;
+        $daysLate = 0;
+        $daysLateArray = [];
 
         foreach ($rentLogs as $rent) {
-            $currentDate = Carbon::now();
-            // dd($rent);
             if ($rent->actual_return_date != null) {
                 $fineAmount = $this->calculateFine(Carbon::parse($rent->return_date),Carbon::parse($rent->actual_return_date));
+                $daysLate = $this->calculateDaysLate(Carbon::parse($rent->return_date),Carbon::parse($rent->actual_return_date));
+                
+                if ($daysLate < 0) {
+                    $daysLateArray[$rent->id] = $daysLate * -1;
+                }
+                
                 $totalFine += $fineAmount;
-    
-                // Update the rental with the fine amount (if needed)
+
                 $rent->fine = $fineAmount;
                 $rent->save();
             }
         }
 
-        // $rentLogs->save();
-
-
-        
-
-        return view('Admin.rentLogs',["rent_logs" => $rentLogs,"categories" => Category::all()]);
+        return view('Admin.rentLogs',["rent_logs" => $rentLogs,"days_late" => $daysLateArray,"categories" => Category::all()]);
     }
 
     private function calculateFine($dueDate, $returnDate)
@@ -49,13 +49,20 @@ class RentLogController extends Controller
         $fineAmount = 0;
         $finePerDay = 20000; // Adjust this according to your requirement
 
-        $daysLate = $returnDate->diffInDays($dueDate, false);
+        $daysLate = $this->calculateDaysLate($dueDate, $returnDate);
 
         if ($daysLate < 0) {
             $fineAmount = (-1 * $daysLate) * $finePerDay;
         }
 
         return  number_format((int)$fineAmount, 0, '.', '.');
+    }
+
+    private function calculateDaysLate($dueDate, $returnDate)
+    {   
+        $daysLate = $returnDate->diffInDays($dueDate, false);
+
+        return $daysLate;
     }
 
     public function adminRentLogReturn(BookRent $bookRent) {
@@ -67,5 +74,13 @@ class RentLogController extends Controller
         $bookRent->book->save();
     
         return redirect('/admin/rent-logs')->withToastSuccess('Book Returned Successfully!');
+    }
+
+    public function adminRentLogFinePay(BookRent $bookRent) {
+        // dd($bookRent->fine);
+        $bookRent->fine_paid = True;
+        $bookRent->save();
+
+        return redirect('/admin/rent-logs')->withToastSuccess('Fine Paid Successfully!');
     }
 }
