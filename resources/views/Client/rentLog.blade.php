@@ -18,11 +18,12 @@
                 <thead>
                   <tr class="text-[#777A8F] border-b border-[#777A8F]/20 text-xs md:text-sm">
                     <th class="text-start font-semibold py-4 w-[5%]">No</th>
-                    <th class="text-start font-semibold py-4 w-[30%]">Book</th>
-                    <th class="text-start font-semibold py-4 w-[15%]">Start Date</th>
-                    <th class="text-start font-semibold py-4 w-[15%]">Return Date</th>
-                    <th class="text-start font-semibold py-4 w-[20%]">Actual Return Date</th>
-                    <th class="text-start font-semibold py-4">Status</th>
+                    <th class="text-start font-semibold py-4 w-[27%]">Book</th>
+                    <th class="text-start font-semibold py-4 w-[11%]">Start Date</th>
+                    <th class="text-start font-semibold py-4 w-[11%]">Return Date</th>
+                    <th class="text-start font-semibold py-4 w-[15%]">Actual Return Date</th>
+                    <th class="text-start font-semibold py-4 w-[12%]">Status</th>
+                    <th class="text-start font-semibold py-4 w-[15%]">Fine Amount</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -40,39 +41,57 @@
                         <tr class="text-[#777A8F] bg-[#DCFCE7] border-b border-[#777A8F]/20 py-8 text-xs md:text-sm">
                       @endif
     
-                      @if ($rent->return_date < $rent->actual_return_date && $rent->actual_return_date != null )  
-                        <tr class="text-[#777A8F] bg-[#FFE8E8] border-b border-[#777A8F]/20 py-8 text-xs md:text-sm">
+                      @if ($rent->return_date < $rent->actual_return_date && $rent->actual_return_date != null && $rent->fine_paid)  
+                        <tr class="text-[#777A8F] border-b border-[#777A8F]/20 py-8 text-xs md:text-sm bg-[#E8F8FF]">
+                      @endif
+
+                      @if ($rent->return_date < $rent->actual_return_date && $rent->actual_return_date != null && !$rent->fine_paid)  
+                        <tr class="text-[#777A8F] border-b border-[#777A8F]/20 py-8 text-xs md:text-sm bg-[#FFE8E8]">
+                      @endif
+
+                      @if ($rent->actual_return_date == null && $rent->fine != '0' && !$rent->fine_paid)  
+                        <tr class="text-[#777A8F] border-b border-[#777A8F]/20 py-8 text-xs md:text-sm bg-[#FFF4EF]">
                       @endif
     
-                        <td class="py-4 pl-2">{{ $rent_logs->firstItem() + $index }}</td>
+                        <td class="py-4 pl-2">{{  $index + 1 }}</td>
                         <td class="py-4">{{ $rent->book->title }}</td>
                         <td class="py-4">{{ $rent->rent_date }}</td>
                         <td class="py-4">{{ $rent->return_date }}</td>
                         <td class="py-4">{{ $rent->actual_return_date ?? '-' }}</td>
                         <td class="text py-4 flex justify-start items-center" >
-                          @if ($rent->status != "Finished")    
-                            <form class="ml-5" action="/admin/rent-logs/return/{{ $rent->id }}" method="post">
-                              @csrf
-                                <button type="submit" class="inline-block hover:opacity-70 transition-all duration-300 text-xs p-1.5 font-medium bg-[#DCFCE7] text-[#3CD755]">
-                                  <svg width="14" height="15" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <g clip-path="url(#clip0_179_8)">
-                                    <path d="M15.6645 3.49976C16.111 3.91479 16.111 4.58882 15.6645 5.00386L6.52167 13.5039C6.07524 13.9189 5.35024 13.9189 4.90381 13.5039L0.33238 9.25386C-0.114049 8.83882 -0.114049 8.16479 0.33238 7.74976C0.778809 7.33472 1.50381 7.33472 1.95024 7.74976L5.71452 11.246L14.0502 3.49976C14.4967 3.08472 15.2217 3.08472 15.6681 3.49976H15.6645Z" fill="#3CD755"/>
-                                    </g>
-                                    <defs>
-                                    <clipPath id="clip0_179_8">
-                                    <rect width="16" height="17" fill="white"/>
-                                    </clipPath>
-                                    </defs>
-                                    </svg>
-                                </button>
-                            </form>
-                          @else
-                            In Time
+                          @if ($rent->actual_return_date == null && $rent->fine == '0')
+                              In Rent Period
                           @endif
+
+                          @if ($rent->actual_return_date == null && $rent->fine != '0' && !$rent->fine_paid)
+                              Over Rent
+                          @endif
+
+                          @if ($rent->return_date >= $rent->actual_return_date && $rent->actual_return_date != null )  
+                            in Time
+                          @endif
+                          
+                          @if ($rent->return_date < $rent->actual_return_date && $rent->actual_return_date != null )
+                          {{ $days_late[$rent->id] }} Days Late
+                          @endif
+                        
+                          {{-- @dd($days_late) --}}
+                        </td>
+                        <td class="py-4">
+                          <div class="flex items-center  {{ $rent->fine == '0' ? 'justify-center' : 'justify-between' }} w-36 px-2.5 py-2 bg-white rounded-lg border">
+                            <p class="text-xs">
+                              {{ $rent->fine == '0' ? '-' : 'Rp. ' . $rent->fine }}
+                            </p>
+                            @if ($rent->fine != '0' && $rent->fine_paid)
+                              <small class="text-[#3CD755]">(paid)</small>
+                            @endif
+                          </div>
                         </td>
                       </tr>
                     @endforeach>
                   @endif
+                  {{-- @dd($days_late) --}}
+                  {{-- @dd($still_rent_late) --}}
                 </tbody>
               </table>
             </div>

@@ -11,7 +11,39 @@ use Illuminate\Support\Facades\Auth;
 class RentLogController extends Controller
 {
     public function clientRentLog() {
-        return view('Client.rentLog',["rent_logs" => BookRent::where('user_id', Auth::user()->id)->where('status','Finished')->orderBy('id', 'desc')->paginate(5)->withQueryString()]);
+        $rentLogs = BookRent::where('user_id', Auth::user()->id)
+                    ->where(function($query) {
+                        $query->where('status', 'Approved')
+                            ->orWhere('status', 'Finished');
+                    })
+                    ->orderByRaw("CASE WHEN status = 'Approved' THEN 1 WHEN status = 'Finished' THEN 2 ELSE 3 END")
+                    ->orderBy('id', 'desc')->paginate(10)->withQueryString();
+        
+        $daysLate = 0;
+        $daysLateArray = [];
+
+        foreach ($rentLogs as $rent) {
+            $daysLate = $this->calculateDaysLate(Carbon::parse($rent->return_date),Carbon::parse($rent->actual_return_date));
+            $fineAmount = $this->calculateFine(Carbon::parse($rent->return_date),Carbon::now());
+
+            if ($daysLate < 0) {
+                $daysLateArray[$rent->id] = -1 * $daysLate;
+            }
+
+            if(Carbon::now() > Carbon::parse($rent->return_date) && $rent->actual_return_date == null) {
+                $currentDate = Carbon::now('Asia/Jakarta')->format('Y-m-d');
+                $fineAmount = $this->calculateFine(Carbon::parse($rent->return_date),Carbon::parse($currentDate));
+
+                $daysLateArray[$rent->id] = -1 *  Carbon::parse($currentDate)->diffInDays(Carbon::parse($rent->return_date), false);
+
+                $rent->fine = $fineAmount;
+                $rent->save();
+            }
+        }
+        // dd($stillRentLate);
+
+
+        return view('Client.rentLog',["rent_logs" => $rentLogs,"days_late" => $daysLateArray]);
     }
 
     public function adminRentLog() {
@@ -19,9 +51,9 @@ class RentLogController extends Controller
                         ->where(function($query) {
                             $query->where('status', 'Approved')
                                 ->orWhere('status', 'Finished');
-                        })->orderBy('id','desc')->paginate(10)->withQueryString();
+                        })->orderByRaw("CASE WHEN status = 'Approved' THEN 1 WHEN status = 'Finished' THEN 2 ELSE 3 END")
+                        ->orderBy('id','desc')->paginate(10)->withQueryString();
 
-        $totalFine = 0;
         $daysLate = 0;
         $daysLateArray = [];
 
@@ -32,9 +64,17 @@ class RentLogController extends Controller
                 
                 if ($daysLate < 0) {
                     $daysLateArray[$rent->id] = $daysLate * -1;
+    
+                    $rent->fine = $fineAmount;
+                    $rent->save();
                 }
-                
-                $totalFine += $fineAmount;
+            }
+
+            if(Carbon::now() > Carbon::parse($rent->return_date) && $rent->actual_return_date == null) {
+                $currentDate = Carbon::now('Asia/Jakarta')->format('Y-m-d');
+                $fineAmount = $this->calculateFine(Carbon::parse($rent->return_date),Carbon::parse($currentDate));
+
+                $daysLateArray[$rent->id] = -1 *  Carbon::parse($currentDate)->diffInDays(Carbon::parse($rent->return_date), false);
 
                 $rent->fine = $fineAmount;
                 $rent->save();
@@ -47,7 +87,7 @@ class RentLogController extends Controller
     private function calculateFine($dueDate, $returnDate)
     {
         $fineAmount = 0;
-        $finePerDay = 20000; // Adjust this according to your requirement
+        $finePerDay = 20000;
 
         $daysLate = $this->calculateDaysLate($dueDate, $returnDate);
 
@@ -55,7 +95,7 @@ class RentLogController extends Controller
             $fineAmount = (-1 * $daysLate) * $finePerDay;
         }
 
-        return  number_format((int)$fineAmount, 0, '.', '.');
+        return number_format((int)$fineAmount, 0, '.', '.');
     }
 
     private function calculateDaysLate($dueDate, $returnDate)
@@ -66,7 +106,7 @@ class RentLogController extends Controller
     }
 
     public function adminRentLogReturn(BookRent $bookRent) {
-        $bookRent->actual_return_date = Carbon::now()->format('Y-m-d');
+        $bookRent->actual_return_date = Carbon::now('Asia/Jakarta')->format('Y-m-d');
         $bookRent->status = "Finished";
         $bookRent->book->status = "In stock";
     

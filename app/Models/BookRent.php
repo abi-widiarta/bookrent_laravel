@@ -22,6 +22,22 @@ class BookRent extends Model
                         ->orWhere('email', 'like', '%' . $search . '%');
                     });
         });
+
+        $query->when($request['category'] ?? false, function ( $query, $category) {
+            // dd($category);
+            if ($category === "still_rented") {
+                $query->where('status','Approved');
+            }
+
+            if ($category === "returned_in_time") {
+                $query->where('status','Finished')->where('fine','0');
+            }
+
+            if ($category === "returned_late") {
+                $query->where('status','Finished')->where('fine','!=','0');
+            }
+                
+        });
     }
 
     public function user()

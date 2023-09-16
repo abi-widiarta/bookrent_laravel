@@ -24,7 +24,7 @@
               @foreach ($categories as $category)
                 {{-- <option {{ $selected_category_id == $category->id ? 'selected' : '' }} value="{{ $category->id }}">{{ $category->name }}</option> --}}
                 <li>
-                  <a href="/admin/books/?category={{ $category->id }}" class="block px-4 py-2 hover:bg-[#777A8F]/10">{{ $category->name }}</a>
+                  <a href="/admin/books?category={{ $category->id }}" class="block px-4 py-2 hover:bg-[#777A8F]/10">{{ $category->name }}</a>
                 </li>
               @endforeach
               
