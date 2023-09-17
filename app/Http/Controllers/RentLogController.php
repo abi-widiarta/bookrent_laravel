@@ -10,15 +10,26 @@ use Illuminate\Support\Facades\Auth;
 
 class RentLogController extends Controller
 {
-    public function clientRentLog() {
+    public function clientRentLog(Request $request) {
         $rentLogs = BookRent::where('user_id', Auth::user()->id)
-                    ->where(function($query) {
-                        $query->where('status', 'Approved')
-                            ->orWhere('status', 'Finished');
-                    })
+                    ->filterRentLogsClient(request(['search','category']))
                     ->orderByRaw("CASE WHEN status = 'Approved' THEN 1 WHEN status = 'Finished' THEN 2 ELSE 3 END")
                     ->orderBy('id', 'desc')->paginate(10)->withQueryString();
         
+        $dropdownText = '';
+
+        if(isset($request->category)) {
+            if ($request->category == 'returned_in_time') {
+                $dropdownText = 'Returned In Time';
+            } else if ($request->category == 'returned_late') {
+                $dropdownText = 'Returned Late';
+            } else if($request->category == 'still_rented'){
+                $dropdownText = 'Still Rented';
+            }
+        } else {
+            $dropdownText = 'Still Rented';
+        };
+
         $daysLate = 0;
         $daysLateArray = [];
 
@@ -43,19 +54,30 @@ class RentLogController extends Controller
         // dd($stillRentLate);
 
 
-        return view('Client.rentLog',["rent_logs" => $rentLogs,"days_late" => $daysLateArray]);
+        return view('Client.rentLog',["rent_logs" => $rentLogs,"days_late" => $daysLateArray,"dropdown_text" => $dropdownText]);
     }
 
-    public function adminRentLog() {
-        $rentLogs = BookRent::with(['user','book'])->filter(request(['search','category']))
-                        ->where(function($query) {
-                            $query->where('status', 'Approved')
-                                ->orWhere('status', 'Finished');
-                        })->orderByRaw("CASE WHEN status = 'Approved' THEN 1 WHEN status = 'Finished' THEN 2 ELSE 3 END")
-                        ->orderBy('id','desc')->paginate(10)->withQueryString();
+    public function adminRentLog(Request $request) {
+        $rentLogs = BookRent::with(['user','book'])->filterRentLogs(request(['search','category']))
+                        ->orderByRaw("CASE WHEN status = 'Approved' THEN 1 WHEN status = 'Finished' THEN 2 ELSE 3 END")
+                        ->orderBy('updated_at','desc')->paginate(10)->withQueryString();
 
         $daysLate = 0;
         $daysLateArray = [];
+
+        $dropdownText = '';
+
+        if(isset($request->category)) {
+            if ($request->category == 'returned_in_time') {
+                $dropdownText = 'Returned In Time';
+            } else if ($request->category == 'returned_late') {
+                $dropdownText = 'Returned Late';
+            } else if($request->category == 'still_rented'){
+                $dropdownText = 'Still Rented';
+            }
+        } else {
+            $dropdownText = 'Still Rented';
+        };
 
         foreach ($rentLogs as $rent) {
             if ($rent->actual_return_date != null) {
@@ -81,7 +103,7 @@ class RentLogController extends Controller
             }
         }
 
-        return view('Admin.rentLogs',["rent_logs" => $rentLogs,"days_late" => $daysLateArray,"categories" => Category::all()]);
+        return view('Admin.rentLogs',["rent_logs" => $rentLogs,"days_late" => $daysLateArray,"categories" => Category::all(),"dropdown_text" => $dropdownText]);
     }
 
     private function calculateFine($dueDate, $returnDate)
@@ -121,6 +143,6 @@ class RentLogController extends Controller
         $bookRent->fine_paid = True;
         $bookRent->save();
 
-        return redirect('/admin/rent-logs')->withToastSuccess('Fine Paid Successfully!');
+        return redirect('/admin/rent-logs?category=returned_late')->withToastSuccess('Fine Paid Successfully!');
     }
 }

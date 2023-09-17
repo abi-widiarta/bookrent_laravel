@@ -75,7 +75,7 @@
                           <p class="inline-block text-xs font-medium px-2 py-2 rounded-md bg-[#777A8F]/10">{{ $category->name }}</p>
                       @endforeach
                     </td>
-                    <td class="py-4 text-[#3CD755] font-medium text-xs md:text-sm">{{ $book->status }}</td>
+                    <td class="py-4 {{ $book->status == 'In stock' ? 'text-[#3CD755]' : ($book->status == 'Out Of Stock' ? 'text-[#FF5050]' : 'text-[#41B6FF]') }} font-medium text-xs md:text-sm">{{ $book->status }}</td>
                     <td class="py-4 flex space-x-2">
                       <a href="/admin/books/edit/{{ $book->id }}" class="inline-block hover:opacity-70 transition-all duration-300 text-xs px-2 py-2 font-medium bg-[#E8F8FF] text-[#41B6FF]">Edit</a>
                       <form class="rent-request-form-trash" action="/admin/books/trash/{{ $book->id }}" method="post">

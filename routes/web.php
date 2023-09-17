@@ -1,11 +1,14 @@
 <?php
 
+use App\Models\Book;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\RentLogController;
+use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RentRequestController;
+use App\Models\Wishlist;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,15 +69,21 @@ Route::middleware('auth:admin')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/books', [BookController::class, 'clientBooks']);
+    Route::get('/books', [BookController::class, 'clientBooks'])->name('books.index');
 
-    Route::get('/books/show/{book}', [BookController::class, 'clientShow']);
+    Route::get('/books/show/{id}', [BookController::class, 'clientShow'])->name('books.show');
 
     Route::get('/rent-request', [RentRequestController::class, 'clientRentRequest']);
 
     Route::get('/rent-logs', [RentLogController::class, 'clientRentLog']);
 
     Route::post('/books/rent/{book}', [BookController::class, 'clientRent']);
+
+    Route::get('/wishlist', [WishlistController::class, 'index']);
+
+    Route::get('/wishlist/show/{book}', [WishlistController::class, 'show']);
+
+    Route::post('/books/wishlist/{book}', [WishlistController::class, 'store']);
 
     Route::post('/logout', [AuthController::class, 'logout']);
 });

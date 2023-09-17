@@ -37,6 +37,24 @@
                         >
                     </li>
                     <li>
+                        <a
+                            class="flex items-center space-x-2 hover:opacity-80 transition-all duration-150 py-4 px-4 {{ Request::is('wishlist*') ? 'bg-[#FF3737] shadow-[0px_4px_4px_0px_rgba(255,55,55,0.23)] hover:opacity-80 text-white' : 'text-[#151C48] hover:bg-gray-400/10' }} rounded-xl"
+                            href="/wishlist"
+                            >
+
+                            <svg stroke="{{ Request::is('wishlist*') ? '#fff' : '#777A8F' }}" width="21" height="21" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14.7233 24.2784C14.3267 24.4184 13.6733 24.4184 13.2767 24.2784C9.89334 23.1234 2.33334 18.305 2.33334 10.1384C2.33334 6.53337 5.23834 3.6167 8.82001 3.6167C10.9433 3.6167 12.8217 4.64337 14 6.23003C15.1783 4.64337 17.0683 3.6167 19.18 3.6167C22.7617 3.6167 25.6667 6.53337 25.6667 10.1384C25.6667 18.305 18.1067 23.1234 14.7233 24.2784Z" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                
+                            {{-- <svg  viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4.66663 9.33325C4.66663 6.03392 4.66663 4.38309 5.69213 3.35875C6.71646 2.33325 8.36729 2.33325 11.6666 2.33325H16.3333C19.6326 2.33325 21.2835 2.33325 22.3078 3.35875C23.3333 4.38309 23.3333 6.03392 23.3333 9.33325V18.6666C23.3333 21.9659 23.3333 23.6168 22.3078 24.6411C21.2835 25.6666 19.6326 25.6666 16.3333 25.6666H11.6666C8.36729 25.6666 6.71646 25.6666 5.69213 24.6411C4.66663 23.6168 4.66663 21.9659 4.66663 18.6666V9.33325Z"  stroke-width="1.5"/>
+                                <path d="M23.2143 18.6665H9.21429C8.12929 18.6665 7.58679 18.6665 7.14113 18.7855C6.54766 18.9446 6.00654 19.2572 5.57217 19.6918C5.1378 20.1264 4.82548 20.6676 4.66663 21.2612"  stroke-width="1.5"/>
+                                <path d="M9.33325 8.1665H18.6666M9.33325 12.2498H15.1666"  stroke-width="1.5" stroke-linecap="round"/>
+                                </svg> --}}
+                            <p>Wishlist</p></a
+                        >
+                    </li>
+                    <li>
                         <a class="{{ Request::is('rent-request*') ? 'bg-[#FF3737] shadow-[0px_4px_4px_0px_rgba(255,55,55,0.23)] text-white hover:opacity-80' : 'text-[#151C48] hover:bg-gray-400/10' }} flex items-center space-x-2  transition-all duration-150 p-4 rounded-xl" href="/rent-request"
                             >
                             <svg stroke="{{ Request::is('rent-request*') ? '#fff' : '#777A8F' }}" width="22" height="22" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">

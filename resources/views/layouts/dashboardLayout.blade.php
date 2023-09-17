@@ -22,13 +22,10 @@
                 /* border: 5px solid red; */
             }
 
-            aside {
-                /* animation-duration: 0.4s;
-                animation-name: slidein;
-                animation-timing-function: ease-out; */
-                /* transform: translateX(-5%); */
-                /* animation-iteration-count: infinite;
-                animation-direction: alternate; */
+            .scale-up {
+                animation-duration: 0.4s;
+                animation-name: scaleUp;
+                animation-timing-function: ease-out;
             }
 
             @keyframes slidein {
@@ -42,6 +39,20 @@
 
                 100% {
                     transform: translateX(-5%);
+                }
+            }
+
+            @keyframes scaleUp {
+                0% {
+                    transform: scale(0);
+                }
+
+                70% {
+                    transform: scale(1.3);
+                }
+
+                100% {
+                    transform: scale(1);
                 }
             }
 

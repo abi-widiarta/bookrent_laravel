@@ -27,8 +27,10 @@ class Book extends Model
 
         $query->when($request['search'] ?? false, function ( $query, $search) {
             if($search != "") {
-                $query->where('title','like','%' . $search . '%')
-                        ->orWhere('author','like','%' . $search . '%');
+                $query->where(function($query) use($search) {
+                    $query->where('title','like','%' . $search . '%')
+                            ->orWhere('author','like','%' . $search . '%');
+                });
             } else if($search == "") {
                 $query->oldest();
             };
@@ -53,5 +55,10 @@ class Book extends Model
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'book_rent', 'book_id', 'user_id');
+    }
+
+    public function usersWishlist(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'wishlists', 'book_id', 'user_id');
     }
 }

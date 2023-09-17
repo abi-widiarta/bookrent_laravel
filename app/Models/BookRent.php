@@ -14,13 +14,16 @@ class BookRent extends Model
 
     protected $table = 'book_rent';
 
-    public function scopeFilter(Builder $query, array $request): void
+    public function scopeFilterRentLogsClient(Builder $query, array $request): void
     {   
         $query->when($request['search'] ?? false, function ( $query, $search) {
-            $query->whereHas('user', function (Builder $query) use($search) {
-                        $query->where('name', 'like', '%' . $search . '%')
-                        ->orWhere('email', 'like', '%' . $search . '%');
+            $query->whereHas('book', function (Builder $query) use($search) {
+                        $query->where('title', 'like', '%' . $search . '%');
                     });
+        });
+
+        $query->when(!isset($request['category']) , function ( $query, $category) {
+            $query->where('status','Approved');
         });
 
         $query->when($request['category'] ?? false, function ( $query, $category) {
@@ -35,9 +38,72 @@ class BookRent extends Model
 
             if ($category === "returned_late") {
                 $query->where('status','Finished')->where('fine','!=','0');
-            }
-                
+            }   
         });
+
+        
+    }
+
+    public function scopeFilterRentLogs(Builder $query, array $request): void
+    {   
+        $query->when($request['search'] ?? false, function ( $query, $search) {
+            $query->whereHas('user', function (Builder $query) use($search) {
+                        $query->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('email', 'like', '%' . $search . '%');
+                    });
+        });
+
+        $query->when(!isset($request['category']) , function ( $query, $category) {
+            $query->where('status','Approved');
+        });
+
+        $query->when($request['category'] ?? false, function ( $query, $category) {
+            // dd($category);
+            if ($category === "still_rented") {
+                $query->where('status','Approved');
+            }
+
+            if ($category === "returned_in_time") {
+                $query->where('status','Finished')->where('fine','0');
+            }
+
+            if ($category === "returned_late") {
+                $query->where('status','Finished')->where('fine','!=','0');
+            }   
+        });
+
+        
+    }
+
+    public function scopeFilterRentRequest(Builder $query, array $request): void
+    {   
+        $query->when($request['search'] ?? false, function ( $query, $search) {
+            $query->whereHas('user', function (Builder $query) use($search) {
+                        $query->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('email', 'like', '%' . $search . '%');
+                    });
+        });
+
+        $query->when(!isset($request['category']) , function ( $query, $category) {
+            $query->where('status','Waiting Approval');
+        });
+
+        $query->when($request['category'] ?? false, function ( $query, $category) {
+            // dd($category);
+            if ($category === "still_rented") {
+                $query->where('status','Approved');
+            }
+
+            if ($category === "returned_in_time") {
+                $query->where('status','Finished')->where('fine','0');
+            }
+
+            if ($category === "returned_late") {
+                $query->where('status','Finished')->where('fine','!=','0');
+            }   
+        });
+
+        
     }
 
     public function user()

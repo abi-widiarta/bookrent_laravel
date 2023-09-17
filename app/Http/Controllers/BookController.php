@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\User;
 use App\Models\BookRent;
 use App\Models\Category;
+use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,8 +29,21 @@ class BookController extends Controller
         return view('Client.books', ["books" => Book::filter(request(['search','category']))->paginate(8)->withQueryString(),"categories" => Category::all(),"selected_category" => $selected_category]);
     }
 
-    public function clientShow(Book $book) {
-        return view('Client.booksShow',["book" => $book]);
+    public function clientShow($id, Request $request) {
+        $inWishlist = false;
+        $returnedBook = Book::find($id);
+
+        if($request->page == null) {
+            $currentPage = '1';
+        } else {
+            $currentPage = $request->page;
+        }
+
+        if(Wishlist::where('user_id',Auth::user()->id)->where('book_id',$id)->count() != 0) {
+            $inWishlist = true;
+        };
+
+        return view('Client.booksShow',["book" => $returnedBook,"in_wishlist" => $inWishlist,'page' => $currentPage]);
     }
 
     public function clientRent(Book $book) {

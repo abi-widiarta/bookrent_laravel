@@ -34,7 +34,7 @@
                   <label class="text-[#777A8F] font-medium text-sm" for="title">Author</label>
                   <input value="{{ $book->author }}" class="p-2 focus:outline-[#777A8F]/80 text-[#777A8F]/90 text-sm  rounded-lg w-full border border-[#777A8F]/20" type="text" name="author" id="author">
                 </div>
-                <div class="flex flex-col space-y-2 items-start border">
+                <div class="flex flex-col space-y-2 items-start">
                   <label class="text-[#777A8F] font-medium text-sm" for="title">Category</label>
                   <select class="js-example-basic-multiple p-2 focus:outline-[#777A8F]/80 text-[#777A8F]/90 text-sm  outline-red-600 outline-4 w-full" name="categories[]" multiple="multiple">
                     @foreach ($categories as $category)

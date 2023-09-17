@@ -15,7 +15,7 @@ class RentRequestController extends Controller
     }
 
     public function adminRentRequest() {
-        return view('Admin.rentRequest',["rent_requests" => BookRent::filter(request(['search','category']))->where('status','Waiting Approval')->orderBy('id', 'desc')->paginate(10)->withQueryString(),"categories" => Category::all()]);
+        return view('Admin.rentRequest',["rent_requests" => BookRent::filterRentRequest(request(['search','category']))->where('status','Waiting Approval')->orderBy('id', 'desc')->paginate(10)->withQueryString(),"categories" => Category::all()]);
     }
 
     public function adminRentRequestAccept(BookRent $bookRent,Request $request) {
