@@ -43,7 +43,7 @@
     <body
         class="bg-[url('/img/landingpage-bg.webp')] bg-cover bg-center bg-no-repeat"
     >
-        <div class="w-screen h-screen bg-[#646464]/50">
+        <div class="w-screen h-[100svh] bg-[#646464]/50">
             <div class="wrapper w-full h-full flex">
                 <aside
                     class="flex backdrop-blur-md text-white flex-col items-center  bg-[#8599AC]/30 shadow-[2px_0px_0px_2px_rgba(225,225,225,0.6)]  py-9 pr-10 pl-10 rounded-none w-full sm:w-[24rem] sm:rounded-tr-[3rem] sm:rounded-br-[3rem]"

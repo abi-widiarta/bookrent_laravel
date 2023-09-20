@@ -33,6 +33,6 @@ return [
     'google' => [
         'client_id' => '654399012696-u17gb6mh8cms5r46j9cahpm7vpfal7nr.apps.googleusercontent.com',
         'client_secret' => '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',
-        'redirect' => 'http://127.0.0.1:8000/auth/google/callback',
+        'redirect' => 'https://8e85-2a09-bac1-3480-28-00-221-8.ngrok-free.app/auth/google/callback',
     ],
 ];

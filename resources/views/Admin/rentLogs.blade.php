@@ -50,13 +50,6 @@
         <div class="space-y-4">
           <div class="flex justify-between flex-col space-y-4 md:space-y-0 md:flex-row">
             <h1 class="text-[#151C48] font-semibold text-base text-center md:text-start md:text-xl">Rent Log List</h1>
-            {{-- <form class="flex space-x-2" action="/admin/rent-logs" method="get">
-              @if (request('category'))
-                  <input hidden type="text" name="category" value="{{ request('category') }}">
-              @endif
-              <input name="search" class="text-[#777A8F] flex-1 md:w-72 border-2 border-[#777A8F]/20 focus:outline-[#777A8F]/30 rounded-lg p-1.5 text-sm" type="text" value="{{ request('search')}}">
-              <button type="submit" class="bg-white transition-all duration-150 hover:bg-[#777A8F]/20 hover:border-[#777A8F]/30 border-2 rounded-lg border-[#777A8F]/15 p-1.5"><img class="w-5" src="/img/icon-search.svg" alt="search-icon"></button>
-            </form> --}}
           </div>  
           <div class="w-full overflow-scroll">
             <table class="table-fixed border-collapse w-[96rem] 2xl:w-[100rem]">
@@ -137,7 +130,7 @@
                       </td>
                       <td class="h-full py-4 flex justify-start items-center">
                         @if ($rent->status != "Finished")    
-                          <form id="rent-request-form-return" class="ml-5" action="/admin/rent-logs/return/{{ $rent->id }}" method="post">
+                          <form class="ml-5 rent-request-form-return" action="/admin/rent-logs/return/{{ $rent->id }}" method="post">
                             @csrf
                               <button type="submit" class="inline-block hover:opacity-70 transition-all duration-300 text-xs p-1.5 font-medium rounded-md bg-[#DCFCE7] text-[#3CD755]">
                                 <svg width="14" height="15" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -179,7 +172,7 @@
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       <script>
   
-        const formReturn = document.querySelector("#rent-request-form-return")
+        const formReturn = document.querySelectorAll("#rent-request-form-return")
           
         formReturn.addEventListener("submit", (e) => {
           e.preventDefault();

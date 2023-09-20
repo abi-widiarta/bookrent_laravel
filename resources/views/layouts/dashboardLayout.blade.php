@@ -165,19 +165,41 @@
                                 </div>
                                     
                             </div>
-                            <div class="flex  items-center bg-white p-2 rounded-xl shadow-[0px_7px_50px_0px_rgba(198,203,232,0.2)] md:space-x-4 md:px-4 ">
-                                <div class="text-end hidden md:block">
-                                    <p class="text-xs">{{ Auth::user()->name ?? Auth::guard('admin')->user()->username  }}</p>
-                                    <p class="text-xs text-[#777A8F]">{{ Auth::guard('web')->check() ? 'Student' : 'Admin' }}</p>
+                            <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" type="button" data-dropdown-placement="bottom-end"> 
+                                <div class="flex items-center bg-white p-2 md:space-x-4 md:px-4 shadow-[0px_7px_50px_0px_rgba(0,0,0,0.1)] rounded-xl">
+                                    <div class="text-end hidden md:block">
+                                        <p class="text-xs">{{ Auth::user()->name ?? Auth::guard('admin')->user()->username  }}</p>
+                                        <p class="text-xs text-[#777A8F]">{{ Auth::guard('web')->check() ? 'Student' : 'Admin' }}</p>
+                                    </div>
+                                    @if (Auth::guard('web')->check())
+                                        <img class="w-9 rounded-lg" src="{{ Auth::user()->google_avatar}}" alt="profile-pict">
+                                    @else
+                                    <div class="w-8 flex items-center rounded-lg justify-center aspect-square bg-[#777A8F]/20">
+                                        <p class="inline-block">{{ Auth::guard('admin')->user()->username[0] }}</p>
+                                    </div>
+                                    @endif
                                 </div>
-                                @if (Auth::guard('web')->check())
-                                    <img class="w-9 rounded-lg" src="{{ Auth::user()->google_avatar}}" alt="profile-pict">
-                                @else
-                                <div class="w-8 flex items-center rounded-lg justify-center aspect-square bg-[#777A8F]/20">
-                                    <p class="inline-block">{{ Auth::guard('admin')->user()->username[0] }}</p>
-                                </div>
-                                @endif
-                            </div>
+                            </button>
+
+                            <form id="dropdown" class="rent-request-form-logout z-10 border -left-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-[0px_7px_61px_0px_rgba(198,203,232,0.5)] md:mt-0" action="{{ Auth::guard('web')->check() ? '/logout' : '/admin/logout'}}" method="post">
+                                @csrf
+                                <button class="flex w-full items-center space-x-2 text-sm font-normal text-[#777A8F] hover:bg-gray-400/10 transition-all duration-150 p-4 rounded-xl" type="submit">
+                                    <svg width="16" height="16" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9.75208 7.58317C9.76508 5.22692 9.87016 3.95075 10.7022 3.11875C11.6544 2.1665 13.1862 2.1665 16.2499 2.1665H17.3332C20.398 2.1665 21.9298 2.1665 22.8821 3.11875C23.8332 4.06992 23.8332 5.60284 23.8332 8.6665V17.3332C23.8332 20.3968 23.8332 21.9298 22.8821 22.8809C21.9287 23.8332 20.398 23.8332 17.3332 23.8332H16.2499C13.1862 23.8332 11.6544 23.8332 10.7022 22.8809C9.87016 22.0489 9.76508 20.7728 9.75208 18.4165" stroke="#777A8F" stroke-width="1.5" stroke-linecap="round"/>
+                                        <path d="M16.25 13H2.16663M2.16663 13L5.95829 9.75M2.16663 13L5.95829 16.25" stroke="#777A8F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    <p>Log Out</p>
+                                </button>
+                            </form>
+                              <!-- Dropdown menu -->
+                              {{-- <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-[0px_7px_61px_0px_rgba(198,203,232,0.5)] -translate-y-20 md:mt-0 md:w-44">
+                                <ul class="py-2 text-xs text-[#777A8F] md:text-sm" aria-labelledby="dropdownDefaultButton">
+                                  <li>
+                                    <a href="/books/?category=all" class="block px-4 py-2 hover:bg-[#777A8F]/10">Log Out</a>
+                                  </li>
+                                </ul>
+                            </div> --}}
+                            
                         </div>
                     </div>
                     <div class="flex-1 py-4 px-6 lg:pl-6 lg:pr-10">
@@ -186,5 +208,31 @@
                 </div>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+        
+        const formLogout = document.querySelector(".rent-request-form-logout")
+        
+        
+        formLogout.addEventListener("submit", (e) => {
+            e.preventDefault();
+        
+            Swal.fire({
+            title: 'Warning',
+            text: "Are you sure want to logout?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3cd766',
+            cancelButtonColor: '#FF3737',
+            confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    formLogout.submit();
+                } 
+            })
+        })
+
+        </script>
     </body>
 </html>
+

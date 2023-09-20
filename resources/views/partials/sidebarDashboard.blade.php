@@ -77,7 +77,7 @@
                     </li>
                 
                 </ul>
-                <form class="rent-request-form-logout" action="/logout" method="post">
+                {{-- <form class="rent-request-form-logout" action="/logout" method="post">
                     @csrf
                     <button class="flex w-full items-center space-x-2 text-sm font-normal text-[#777A8F] hover:bg-gray-400/10 transition-all duration-150 p-4 rounded-xl" type="submit">
                         <svg width="21" height="21" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -86,7 +86,7 @@
                             </svg>
                         <p>Log Out</p>
                     </button>
-                </form>
+                </form> --}}
             @else
                 <ul class="space-y-2 text-sm font-normal ">
                     <li>
@@ -134,9 +134,8 @@
                             <p>Rent Logs</p></a
                         >
                     </li>
-                
                 </ul>
-                <form class="rent-request-form-logout" action="/admin/logout" method="post">
+                {{-- <form class="rent-request-form-logout" action="/admin/logout" method="post">
                     @csrf
                     <button class="flex w-full items-center space-x-2 text-sm font-normal text-[#777A8F] hover:bg-gray-400/10 transition-all duration-150 p-4 rounded-xl" type="submit">
                         <svg width="21" height="21" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -145,7 +144,7 @@
                             </svg>
                         <p>Log Out</p>
                     </button>
-                </form>
+                </form> --}}
             @endif
         </div>
     </aside>

@@ -24,7 +24,7 @@
                 <img class="border rounded-xl  shadow-[0px_10px_20px_0px_rgba(0,0,0,0.15)]  transition-all duration-300 w-full sm:h-[40rem] sm:w-auto md:h-[26rem]" src={{ $book->cover }} alt="book-img">
             </div>
             <div class="flex-1 flex flex-col items-start pb-4 xl:pb-0">
-                  <div class="flex w-[90%] justify-between items-start">
+                  <div class="flex w-full justify-between items-start md:w-[90%]">
                     @if ($book->status == "In stock")
                     <p class="inline-block mr-auto mb-3  text-[#3CD755] font-semibold bg-[#DCFCE7] py-2 px-2 rounded-md text-[10px] md:text-xs">{{ $book->status }}</p>
                     @endif
@@ -43,9 +43,9 @@
                         <input type="hidden" name="page" value={{ request('page') }}>
                         <input name="wishlistFrom" hidden value="books" type="text">
                         @if ($in_wishlist)
-                          <img class="w-7 scale-up hover:-translate-y-1 transition-all duration-150 drop-shadow-[0px_4px_4px_rgba(255,55,55,0.25)] hover:drop-shadow-[0px_8px_4px_rgba(255,55,55,0.25)]" src="/img/icon-wishlist-bold.svg" alt="">
+                          <img class="w-5 md:w-7 scale-up hover:-translate-y-1 transition-all duration-150 drop-shadow-[0px_4px_4px_rgba(255,55,55,0.25)] hover:drop-shadow-[0px_8px_4px_rgba(255,55,55,0.25)]" src="/img/icon-wishlist-bold.svg" alt="">
                         @else
-                          <img class="w-7 hover:-translate-y-1 transition-all duration-150" src="/img/icon-wishlist-linear.svg" alt="">
+                          <img class="w-5 md:w-7 hover:-translate-y-1 transition-all duration-150" src="/img/icon-wishlist-linear.svg" alt="">
                         @endif
                       </button>
                     </form>
