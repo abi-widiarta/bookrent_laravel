@@ -4,6 +4,7 @@ use App\Models\Book;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\ComicController;
 use App\Http\Controllers\RentLogController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\DashboardController;
@@ -34,6 +35,8 @@ Route::middleware('guest')->group(function () {
     Route::post('/admin/login', [AuthController::class, 'authenticateAdmin']);
 
     Route::post('/admin/logout', [AuthController::class, 'logoutAdmin']);
+
+    Route::get('/comic', [ComicController::class, 'index']);
 });
 
 Route::middleware('auth:admin')->group(function () {

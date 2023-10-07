@@ -20,7 +20,7 @@
             </a>
           </div>
           <div class="flex h-auto flex-col md:space-x-12 md:flex-row lg:space-x-0 lg:flex-col xl:flex-row xl:space-x-12">
-            <div  data-tilt class="flex js-tilt justify-center items-start rounded-xl mb-8 md:mb-4 lg:mb-8 xl:mb-0">
+            <div class="flex js-tilt justify-center items-start rounded-xl mb-8 md:mb-4 lg:mb-8 xl:mb-0">
                 <img class="border rounded-xl  shadow-[0px_10px_20px_0px_rgba(0,0,0,0.15)]  transition-all duration-300 w-full sm:h-[40rem] sm:w-auto md:h-[26rem]" src={{ $book->cover }} alt="book-img">
             </div>
             <div class="flex-1 flex flex-col items-start pb-4 xl:pb-0">
@@ -55,7 +55,7 @@
                   <p class="mb-4 font-medium text-[#777A8F]/80 text-sm md:text-base">{{ $book->author }}</p>
                   <div class="mb-4 flex flex-wrap gap-1 md:gap-2 md:mb-8">
                     @foreach ($book->categories as $category)
-                      <a href="/books/?category={{ $category->id }}" class="inline-block py-2 px-4 rounded-md bg-[#777A8F]/10 text-[#777A8F] font-medium text-[10px] hover:opacity-75 md:text-xs">{{ $category->name }}</a>
+                      <a onclick="navigateToUrl('/books/?category={{ $category->id }}'); return false;" class="cursor-pointer inline-block py-2 px-4 rounded-md bg-[#777A8F]/10 text-[#777A8F] font-medium text-[10px] hover:opacity-75 md:text-xs">{{ $category->name }}</a>
                     @endforeach
                   </div>
                 
@@ -79,21 +79,37 @@
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tilt.js/1.2.1/tilt.jquery.min.js"></script>
+  <script type="text/javascript" src="/js/vanilla-tilt.min.js"></script>
+  <script type="text/javascript">
+    VanillaTilt.init(document.querySelector(".js-tilt"), {
+    reverse:                false,  // reverse the tilt direction
+    max:                    5,     // max tilt rotation (degrees)
+    startX:                 0,      // the starting tilt on the X axis, in degrees.
+    startY:                 0,      // the starting tilt on the Y axis, in degrees.
+    perspective:            1000,   // Transform perspective, the lower the more extreme the tilt gets.
+    scale:                  1,      // 2 = 200%, 1.5 = 150%, etc..
+    speed:                  300,    // Speed of the enter/exit transition
+    transition:             true,   // Set a transition on enter/exit.
+    axis:                   null,   // What axis should be enabled. Can be "x" or "y"
+    reset:                  true,   // If the tilt effect has to be reset on exit.
+    "reset-to-start":       true,   // Whether the exit reset will go to [0,0] (default) or [startX, startY]
+    easing:                 "cubic-bezier(.03,.98,.52,.99)",    // Easing on enter/exit.
+    glare:                  true,  // if it should have a "glare" effect
+    "max-glare":            0.5,      // the maximum "glare" opacity (1 = 100%, 0.5 = 50%)
+    "glare-prerender":      false,  // false = VanillaTilt creates the glare elements for you, otherwise
+                                    // you need to add .js-tilt-glare>.js-tilt-glare-inner by yourself
+    "mouse-event-element":  null,   // css-selector or link to HTML-element what will be listen mouse events
+    gyroscope:              false,   // Boolean to enable/disable device orientation detection,
+    gyroscopeMinAngleX:     -45,    // This is the bottom limit of the device angle on X axis, meaning that a device rotated at this angle would tilt the element as if the mouse was on the left border of the element;
+    gyroscopeMaxAngleX:     45,     // This is the top limit of the device angle on X axis, meaning that a device rotated at this angle would tilt the element as if the mouse was on the right border of the element;
+    gyroscopeMinAngleY:     -45,    // This is the bottom limit of the device angle on Y axis, meaning that a device rotated at this angle would tilt the element as if the mouse was on the top border of the element;
+    gyroscopeMaxAngleY:     45,     // This is the top limit of the device angle on Y axis, meaning that a device rotated at this angle would tilt the element as if the mouse was on the bottom border of the element;
+});
+    
+    //It also supports NodeList
+    VanillaTilt.init(document.querySelector(".js-tilt"));
+  </script>
   <script>
-    $('.js-tilt').tilt({
-      glare: true,
-      maxGlare: .5,
-      maxTilt:        15,
-      perspective:    1000,   // Transform perspective, the lower the more extreme the tilt gets.
-      easing:         "cubic-bezier(.03,.98,.52,.99)",    // Easing on enter/exit.
-      scale:          1.05,      // 2 = 200%, 1.5 = 150%, etc..
-      speed:          300,    // Speed of the enter/exit transition.
-      transition:     true,   // Set a transition on enter/exit.
-      disableAxis:    null,   // What axis should be disabled. Can be X or Y.
-      reset:          true,   // If the tilt effect has to be reset on exit.
-    })
-
 
     const form = document.querySelector("#rent-request-form")
 
@@ -110,6 +126,7 @@
       confirmButtonText: 'Yes'
       }).then((result) => {
         if (result.isConfirmed) {
+          loading();
           form.submit();
         } 
       })

@@ -28,6 +28,12 @@
                 animation-timing-function: ease-out;
             }
 
+            #loading {
+                animation-duration: 0.2s;
+                animation-name: loadingFadeIn;
+                animation-timing-function: ease-out;
+            }
+
             @keyframes slidein {
                 0% {
                     transform: translateX(-100%);
@@ -53,6 +59,17 @@
 
                 100% {
                     transform: scale(1);
+                }
+            }
+
+            @keyframes loadingFadeIn {
+                0% {
+                    opacity: 0;
+                }
+
+
+                100% {
+                    opacity: 1;
                 }
             }
 
@@ -132,6 +149,14 @@
             ::-webkit-scrollbar-thumb:hover {
                 background: #cbcbcb;
             }
+
+            input,
+            textarea,
+            button,
+            select,
+            a {
+                -webkit-tap-highlight-color: transparent;
+            }
         </style>
     </head>
     <body
@@ -140,13 +165,19 @@
         @include('partials.sidebarDashboard')
         @include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
 
+        <div id="backdrop" class="fixed z-30 top-0 left-0 hidden w-full h-full bg-gray-800/70"></div>
+        
+        <div id="loading" class="fixed hidden place-content-center z-40 top-0 left-0 w-full h-full bg-white/80">
+            <img class="w-40 animate-bounce" src="/img/loading.svg" alt="loading">
+        </div>
+
         <div class="w-full h-full lg:pl-80 pt-2">
                 <div class="flex flex-col w-full h-full">
                     <div class="flex text-black items-center justify-between w-full p-4 lg:pl-6 lg:pr-10">
                         <!-- drawer init and show -->
                         <div class="flex items-center space-x-4">
                             <div class="text-center shadow-[0px_7px_50px_0px_rgba(198,203,232,0.2)] lg:hidden">
-                                <button class="text-white aspect-square bg-white hover:opacity-70 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm p-2  focus:outline-none" type="button" data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation" aria-controls="drawer-navigation">
+                                <button id="hamburger-btn" class="text-white aspect-square bg-white hover:opacity-70 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm p-2  focus:outline-none" type="button">
                                     <svg width="20" height="20" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M3.75 21.25H26.25M3.75 15H26.25M3.75 8.75H26.25" stroke="#151C48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                         </svg>
@@ -210,9 +241,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-        
+
         const formLogout = document.querySelector(".rent-request-form-logout")
-        
         
         formLogout.addEventListener("submit", (e) => {
             e.preventDefault();
@@ -231,6 +261,65 @@
                 } 
             })
         })
+
+        const hamburgerBtn  = document.querySelector("#hamburger-btn")
+        const defaultSidebar = document.querySelector("#default-sidebar")
+        const backDrop = document.querySelector("#backdrop")
+
+        backDrop.addEventListener('click', () => {
+            defaultSidebar.classList.toggle('-translate-x-full')
+            backDrop.classList.add("hidden")
+            document.body.style.overflow = "visible"
+        })
+        
+        hamburgerBtn.addEventListener('click', () => {
+            defaultSidebar.classList.toggle('-translate-x-full')
+            backDrop.classList.remove("hidden")
+            document.body.style.overflow = "hidden"
+            // document.body.style.backgroundColor = "#000"
+        })
+
+        
+        function loading() {
+            console.log('tes')
+            const loading = document.querySelector("#loading")
+            loading.classList.add('grid')
+            loading.classList.remove('hidden')
+        }
+
+        function removeOverlay() {
+            console.log("ok")
+            const loading = document.querySelector("#loading")
+            loading.classList.remove('grid')
+            loading.classList.add('hidden')
+        }
+
+        // Example: Remove overlay when navigation is complete
+        function navigateToUrl(url) {
+            // Show the overlay
+            loading()
+
+            // Navigate to the specified URL
+            window.location.href = url;
+
+            // Remove the overlay after the navigation is complete
+            // removeOverlay();
+        }
+
+        window.addEventListener("load", (event) => {
+            const loading = document.querySelector("#loading")
+            console.log(loading.classList.contains('grid'))
+        });
+
+        window.addEventListener('popstate', function(event) {
+            console.log('popstate')
+            // Call the function to remove the overlay when the back button is clicked
+            // removeOverlay();
+        });
+
+        // window.onbeforeunload = function() {
+        //     removeOverlay();
+        // };
 
         </script>
     </body>

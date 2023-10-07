@@ -1,5 +1,5 @@
 <!-- drawer component -->
-<div id="drawer-navigation" class="fixed top-0 left-0 z-40 h-screen overflow-x-visible overflow-y-auto transition-transform duration-500 -translate-x-full lg:translate-x-0" tabindex="-1" aria-labelledby="drawer-navigation-label">
+<div id="default-sidebar" class="fixed top-0 left-0 z-40 h-screen overflow-x-visible overflow-y-auto transition-transform duration-500 -translate-x-full lg:translate-x-0">
 
     <aside
     class="flex  h-full space-y-6 backdrop-blur-md text-[#151C48] overflow-x-visible  flex-col items-center bg-white w-[19rem] py-9 pr-10 pl-10 shadow-[4px_0px_50px_4px_rgba(198,203,232,0.1)]"
@@ -153,63 +153,27 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 
-const formLogout = document.querySelectorAll(".rent-request-form-logout")
+// const formLogout = document.querySelectorAll(".rent-request-form-logout")
 
-formLogout.forEach(form => {
-        form.addEventListener("submit", (e) => {
-        e.preventDefault();
+// formLogout.forEach(form => {
+//         form.addEventListener("submit", (e) => {
+//         e.preventDefault();
 
-        Swal.fire({
-        title: 'Warning',
-        text: "Are you sure want to logout?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3cd766',
-        cancelButtonColor: '#FF3737',
-        confirmButtonText: 'Yes'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                form.submit();
-            } 
-        })
-    })
-});
-
-
-// formLogout.addEventListener("submit", (e) => {
-//     e.preventDefault();
-
-//     Swal.fire({
-//     title: 'Warning',
-//     text: "Are you sure want to logout?",
-//     icon: 'warning',
-//     showCancelButton: true,
-//     confirmButtonColor: '#3cd766',
-//     cancelButtonColor: '#FF3737',
-//     confirmButtonText: 'Yes'
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//         formLogout.submit();
-//         } 
+//         Swal.fire({
+//         title: 'Warning',
+//         text: "Are you sure want to logout?",
+//         icon: 'warning',
+//         showCancelButton: true,
+//         confirmButtonColor: '#3cd766',
+//         cancelButtonColor: '#FF3737',
+//         confirmButtonText: 'Yes'
+//         }).then((result) => {
+//             if (result.isConfirmed) {
+//                 form.submit();
+//             } 
+//         })
 //     })
-// })
+// });
 
-// formLogoutAdmin.addEventListener("submit", (e) => {
-//     e.preventDefault();
-//     console.log('tes admin');
-//     Swal.fire({
-//     title: 'Warning',
-//     text: "Are you sure want to logout?",
-//     icon: 'warning',
-//     showCancelButton: true,
-//     confirmButtonColor: '#3cd766',
-//     cancelButtonColor: '#FF3737',
-//     confirmButtonText: 'Yes'
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//         formLogoutAdmin.submit();
-//         } 
-//     })
-// })
 </script>
 

@@ -88,6 +88,7 @@
 
                         <a
                             class="px-6 py-3 text-black/60 font-semibold rounded-full bg-white/80 hover:bg-white/60 transition-all duration-150 space-x-4 items-center flex"
+                            onclick="disabled(event)"
                             href="/auth/google/redirect"
                         >
                             <img
@@ -140,5 +141,13 @@
                 </aside>
             </div>
         </div>
+
+        <script>
+            function disabled(e) {
+                console.log(e);
+                e.target.parentElement.classList.add("pointer-events-none");
+                e.target.parentElement.classList.add("opacity-30");
+            }
+        </script>
     </body>
 </html>
