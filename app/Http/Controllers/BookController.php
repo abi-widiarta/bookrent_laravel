@@ -77,7 +77,7 @@ class BookController extends Controller
         $book->save();
         
         $user = User::find(Auth::user()->id);
-        $user->books()->attach($book->id);
+        $user->books()->attach($book->id,['status' => 'Waiting Approval']);
 
         return redirect('/rent-request')->withToastSuccess('Request Sent Successfully!');
     }
