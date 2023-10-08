@@ -71,7 +71,7 @@
                     </tr>
                   @else
                     @foreach ($rent_logs as $index => $rent)
-                      @if ($rent->status == 'Approved' && $rent->fine == '0')  
+                      @if ($rent->status == 'Approved')  
                         <tr class="text-[#777A8F] border-b border-[#777A8F]/20 py-8 text-xs md:text-sm">
                       @endif
     
@@ -83,11 +83,11 @@
                         <tr class="text-[#777A8F] border-b border-[#777A8F]/20 py-8 text-xs md:text-sm bg-[#E8F8FF]">
                       @endif
 
-                      @if ($rent->return_date < $rent->actual_return_date && $rent->fine != '0' && $rent->status == 'Finished')  
+                      @if ($rent->return_date < $rent->actual_return_date && $rent->actual_return_date != null && !$rent->fine_paid)  
                         <tr class="text-[#777A8F] border-b border-[#777A8F]/20 py-8 text-xs md:text-sm bg-[#FFE8E8]">
                       @endif
 
-                      @if ($rent->status == 'Approved' && $rent->fine != '0' && !$rent->fine_paid)  
+                      @if ($rent->actual_return_date == null && $rent->fine != '0' && !$rent->fine_paid)  
                         <tr class="text-[#777A8F] border-b border-[#777A8F]/20 py-8 text-xs md:text-sm bg-[#FFF4EF]">
                       @endif
     
