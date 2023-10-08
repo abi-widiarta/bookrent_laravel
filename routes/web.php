@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Book;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
@@ -9,7 +8,6 @@ use App\Http\Controllers\RentLogController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RentRequestController;
-use App\Models\Wishlist;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +22,10 @@ use App\Models\Wishlist;
 
 
 Route::middleware('guest')->group(function () {
+    Route::get('/', function() {
+        return redirect('/login');
+    });
+
     Route::get('/login', [AuthController::class, 'index'])->name('login');
 
     Route::get('/admin/login', [AuthController::class, 'admin']);
@@ -40,6 +42,10 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth:admin')->group(function () {
+    Route::get('/', function() {
+        return redirect('/admin/login');
+    });
+
     Route::get('/admin/dashboard', [DashboardController::class, 'index']);
 
     Route::get('/admin/books',[BookController::class, 'adminBooks']);
@@ -72,6 +78,10 @@ Route::middleware('auth:admin')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/', function() {
+        return redirect('/login');
+    });
+
     Route::get('/books', [BookController::class, 'clientBooks'])->name('books.index');
 
     Route::get('/books/show/{id}', [BookController::class, 'clientShow'])->name('books.show');
