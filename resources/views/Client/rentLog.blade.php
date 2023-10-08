@@ -71,7 +71,7 @@
                     </tr>
                   @else
                     @foreach ($rent_logs as $index => $rent)
-                      @if ($rent->actual_return_date == null)  
+                      @if ($rent->status == 'Approved')  
                         <tr class="text-[#777A8F] border-b border-[#777A8F]/20 py-8 text-xs md:text-sm">
                       @endif
     
@@ -97,19 +97,19 @@
                         <td class="py-4">{{ $rent->return_date }}</td>
                         <td class="py-4">{{ $rent->actual_return_date ?? '-' }}</td>
                         <td class="text py-4 flex justify-start items-center" >
-                          @if ($rent->actual_return_date == null && $rent->fine == '0')
+                          @if ($rent->status == 'Approved')
                               In Rent Period
                           @endif
 
-                          @if ($rent->actual_return_date == null && $rent->fine != '0' && !$rent->fine_paid)
+                          @if ($rent->status == 'Approved' && $rent->fine != '0' && !$rent->fine_paid)
                               Over Rent
                           @endif
 
-                          @if ($rent->return_date >= $rent->actual_return_date && $rent->actual_return_date != null )  
+                          @if ($rent->return_date >= $rent->actual_return_date && $rent->fine == '0' )  
                             in Time
                           @endif
                           
-                          @if ($rent->return_date < $rent->actual_return_date && $rent->actual_return_date != null )
+                          @if ($rent->return_date < $rent->actual_return_date && $rent->fine != '0' )
                           {{ $days_late[$rent->id] }} Days Late
                           @endif
                         
